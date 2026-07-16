@@ -12,27 +12,28 @@ explanations, tests, and a local Gradio demo.
 
 ## Results
 
-The final checkpoint was selected using validation quadratic weighted kappa (QWK).
-Temperature scaling was fitted on the validation split, then the held-out test split was
-evaluated once. The 95% interval for QWK was estimated with 1,000 bootstrap samples.
+The final checkpoint starts from the APTOS ordinal model and adds three epochs of
+class-aware fine-tuning with IDRiD's official training split. Checkpoint selection and
+temperature scaling use the unchanged APTOS validation split. The 95% QWK intervals use
+1,000 bootstrap samples.
 
-| Metric | Internal test | External IDRiD |
+| Metric | APTOS test | IDRiD official test |
 | --- | ---: | ---: |
-| Quadratic weighted kappa | 0.895 (95% CI 0.866–0.922) | 0.742 (95% CI 0.699–0.783) |
-| Macro F1 | 0.684 | 0.418 |
-| Balanced accuracy | 0.681 | 0.453 |
-| Referable-DR AUROC | 0.984 | 0.951 |
-| Referable-DR sensitivity | 96.6% | 74.0% |
-| Referable-DR specificity | 93.6% | 99.0% |
-| Expected calibration error | 1.2% | 21.4% |
-| Images | 501 | 516 |
+| Quadratic weighted kappa | 0.881 (95% CI 0.849–0.909) | 0.731 (95% CI 0.590–0.847) |
+| Macro F1 | 0.635 | 0.567 |
+| Balanced accuracy | 0.635 | 0.575 |
+| Referable-DR AUROC | 0.981 | 0.931 |
+| Referable-DR sensitivity | 93.6% | 85.9% |
+| Referable-DR specificity | 92.6% | 87.2% |
+| Expected calibration error | 2.5% | 13.5% |
+| Images | 501 | 103 |
 
-The external result is intentionally included to show the effect of changing cameras,
-collection settings, and label distributions. Ordered severity and referable-DR
-discrimination transfer reasonably well, but exact-grade recall and calibration degrade.
-The interface therefore keeps exact grading and the binary screening result separate.
+Fine-tuning raised severe-grade recall on the IDRiD test split from 10.5% (2/19) to 84.2%
+(16/19), while APTOS severe recall fell from 37.0% to 29.6%. The candidate met the
+predeclared guardrails: APTOS QWK fell by 0.014 and referable AUROC by 0.003. These
+results show a cross-dataset tradeoff, not a clinical performance claim.
 
-![Normalized held-out confusion matrix](artifacts/ordinal_confusion_matrix.png)
+![Normalized APTOS confusion matrix](artifacts/idrid_finetune/candidate_aptos_confusion_matrix.png)
 
 ## Prediction task
 
@@ -74,9 +75,10 @@ This retained 3,201 matches: 2,227 training, 473 validation, and 501 test images
 label agreement was 100%. The committed manifest makes the match auditable; dataset
 images are not committed.
 
-External evaluation uses all 516 disease-grading images from
+Fine-tuning also uses the 413-image official training split from
 [IDRiD](https://ieee-dataport.org/open-access/indian-diabetic-retinopathy-image-dataset-idrid)
-(CC BY 4.0). IDRiD was not used for training, checkpoint selection, or calibration.
+(CC BY 4.0), including 74 severe-grade images. All 103 official testing images remain
+outside training, checkpoint selection, and calibration.
 
 ## Run the demo
 
@@ -133,15 +135,25 @@ python scripts/train_ordinal_model.py \
   --image-directory /path/to/high-resolution-dataset
 ```
 
-Evaluate on IDRiD:
+Fine-tune with the official IDRiD training split:
 
 ```bash
-python scripts/evaluate_idrid.py --idrid-root /path/to/idrid
+python scripts/finetune_idrid.py \
+  --idrid-root /path/to/idrid \
+  --aptos-root /path/to/high-resolution-dataset
 ```
 
-The same commands work in a free Kaggle notebook with a GPU enabled. The final
-configuration is in `configs/ordinal_384.yaml`; the original 224px baseline remains in
-`configs/baseline.yaml`.
+Compare the original and fine-tuned checkpoints:
+
+```bash
+python scripts/compare_checkpoints.py \
+  --idrid-root /path/to/idrid \
+  --aptos-root /path/to/high-resolution-dataset
+```
+
+The same commands work in a free Kaggle notebook with a GPU enabled. Fine-tuning is
+configured in `configs/idrid_finetune.yaml`; the original ordinal and 224px baseline
+configurations remain available.
 
 ## Repository structure
 
@@ -161,8 +173,11 @@ tests/                    unit and smoke tests
 - The dataset is relatively small and heavily imbalanced.
 - Exact duplicates and conflicting labels indicate real annotation-quality limits.
 - The split is image-level because patient identifiers are not supplied in this derivative.
-- Severe grade recall is only 37.0% on the internal test set and 11.8% on IDRiD.
-- External calibration error is 21.4%, so confidence does not transfer reliably.
+- Severe-grade recall differs sharply between APTOS (29.6%, 8/27) and IDRiD (84.2%,
+  16/19).
+- The IDRiD test set contains only 19 severe-grade images, so its recall estimate has high
+  uncertainty.
+- Calibration still changes across datasets: ECE is 2.5% on APTOS and 13.5% on IDRiD.
 - Image-quality thresholds are engineering safeguards, not clinically validated quality
   assessment.
 - Performance has not been tested prospectively or in a clinical workflow.

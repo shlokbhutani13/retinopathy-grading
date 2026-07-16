@@ -1,0 +1,62 @@
+{
+  "quadratic_weighted_kappa": 0.8806834066787471,
+  "macro_f1": 0.634678394389589,
+  "balanced_accuracy": 0.6353341183526943,
+  "per_class_recall": [
+    0.9838056680161943,
+    0.5686274509803921,
+    0.7279411764705882,
+    0.2962962962962963,
+    0.6
+  ],
+  "confusion_matrix": [
+    [
+      243,
+      3,
+      1,
+      0,
+      0
+    ],
+    [
+      3,
+      29,
+      17,
+      2,
+      0
+    ],
+    [
+      1,
+      9,
+      99,
+      15,
+      12
+    ],
+    [
+      0,
+      1,
+      9,
+      8,
+      9
+    ],
+    [
+      1,
+      2,
+      9,
+      4,
+      24
+    ]
+  ],
+  "referable_auroc": 0.9810394419281252,
+  "referable_sensitivity": 0.9359605911330049,
+  "referable_specificity": 0.9261744966442953,
+  "referable_precision": 0.8962264150943396,
+  "referable_negative_predictive_value": 0.9550173010380623,
+  "dataset": "APTOS held-out test",
+  "samples": 501,
+  "expected_calibration_error": 0.024554884481401848,
+  "kappa_95_ci": {
+    "estimate": 0.8806834066787471,
+    "lower": 0.848965326032705,
+    "upper": 0.9088156851240441
+  }
+}

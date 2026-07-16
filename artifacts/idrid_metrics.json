@@ -1,63 +1,62 @@
 {
-  "quadratic_weighted_kappa": 0.7417223515278925,
-  "macro_f1": 0.41761899292334076,
-  "balanced_accuracy": 0.45264362519201223,
+  "quadratic_weighted_kappa": 0.730904427132814,
+  "macro_f1": 0.5671339840283939,
+  "balanced_accuracy": 0.5749368897356513,
   "per_class_recall": [
-    0.6488095238095238,
-    0.48,
+    0.7941176470588235,
+    0.2,
     0.5,
-    0.11827956989247312,
-    0.5161290322580645
+    0.8421052631578947,
+    0.5384615384615384
   ],
   "confusion_matrix": [
     [
-      109,
-      58,
-      0,
-      0,
+      27,
+      1,
+      4,
+      1,
       1
     ],
     [
-      12,
-      12,
+      3,
+      1,
       1,
       0,
       0
     ],
     [
-      7,
-      63,
-      84,
       3,
-      11
+      3,
+      16,
+      9,
+      1
     ],
     [
+      2,
+      0,
       1,
-      8,
-      49,
-      11,
-      24
+      16,
+      0
     ],
     [
       0,
-      9,
-      13,
-      8,
-      32
+      1,
+      1,
+      4,
+      7
     ]
   ],
-  "referable_auroc": 0.9510098012480148,
-  "referable_sensitivity": 0.739938080495356,
-  "referable_specificity": 0.9896373056994818,
-  "referable_precision": 0.991701244813278,
-  "referable_negative_predictive_value": 0.6945454545454546,
-  "dataset": "IDRiD disease grading",
-  "license": "CC-BY-4.0",
-  "samples": 516,
-  "expected_calibration_error": 0.21405648260172397,
+  "referable_auroc": 0.9310897435897437,
+  "referable_sensitivity": 0.859375,
+  "referable_specificity": 0.8717948717948718,
+  "referable_precision": 0.9166666666666666,
+  "referable_negative_predictive_value": 0.7906976744186046,
+  "dataset": "IDRiD official test",
+  "samples": 103,
+  "expected_calibration_error": 0.13478064434040582,
   "kappa_95_ci": {
-    "estimate": 0.7417223515278925,
-    "lower": 0.6988252102016845,
-    "upper": 0.7826682540707383
+    "estimate": 0.730904427132814,
+    "lower": 0.5901203787619105,
+    "upper": 0.8466698306505124
   }
 }

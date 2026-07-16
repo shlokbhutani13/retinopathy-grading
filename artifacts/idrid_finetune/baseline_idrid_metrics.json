@@ -1,0 +1,62 @@
+{
+  "quadratic_weighted_kappa": 0.6537716499544212,
+  "macro_f1": 0.3723478851356089,
+  "balanced_accuracy": 0.4160809121219338,
+  "per_class_recall": [
+    0.38235294117647056,
+    0.6,
+    0.53125,
+    0.10526315789473684,
+    0.46153846153846156
+  ],
+  "confusion_matrix": [
+    [
+      13,
+      21,
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      11,
+      17,
+      1,
+      1
+    ],
+    [
+      0,
+      2,
+      11,
+      2,
+      4
+    ],
+    [
+      0,
+      4,
+      3,
+      0,
+      6
+    ]
+  ],
+  "referable_auroc": 0.8749999999999999,
+  "referable_sensitivity": 0.71875,
+  "referable_specificity": 0.9743589743589743,
+  "referable_precision": 0.9787234042553191,
+  "referable_negative_predictive_value": 0.6785714285714286,
+  "dataset": "IDRiD official test",
+  "samples": 103,
+  "expected_calibration_error": 0.262130211451345,
+  "kappa_95_ci": {
+    "estimate": 0.6537716499544212,
+    "lower": 0.5393539084252222,
+    "upper": 0.751931795375273
+  }
+}

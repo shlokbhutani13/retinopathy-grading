@@ -1,6 +1,10 @@
 import numpy as np
 
-from retinopathy.analysis import bootstrap_confidence_interval, failure_table
+from retinopathy.analysis import (
+    bootstrap_confidence_interval,
+    failure_table,
+    portable_identifiers,
+)
 
 
 def test_bootstrap_interval_is_deterministic_and_contains_estimate():
@@ -40,3 +44,12 @@ def test_failure_table_finds_high_confidence_errors():
     assert table["path"].tolist() == ["b"]
     assert table.loc[0, "true_grade"] == 1
     assert table.loc[0, "predicted_grade"] == 2
+
+
+def test_portable_identifiers_remove_local_directories():
+    paths = [
+        "/local/cache/images/DR/image_001.png",
+        "/tmp/idrid/IDRiD_101.jpg",
+    ]
+
+    assert portable_identifiers(paths) == ["image_001.png", "IDRiD_101.jpg"]

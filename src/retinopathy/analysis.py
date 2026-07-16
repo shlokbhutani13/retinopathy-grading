@@ -1,9 +1,14 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+
+def portable_identifiers(paths: Sequence[str]) -> list[str]:
+    return [Path(path).name for path in paths]
 
 
 def bootstrap_confidence_interval(

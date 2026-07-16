@@ -10,7 +10,11 @@ import torch
 from PIL import Image
 from sklearn.metrics import cohen_kappa_score
 
-from retinopathy.analysis import bootstrap_confidence_interval, failure_table
+from retinopathy.analysis import (
+    bootstrap_confidence_interval,
+    failure_table,
+    portable_identifiers,
+)
 from retinopathy.calibration import expected_calibration_error
 from retinopathy.evaluation import evaluate_predictions
 from retinopathy.ordinal import OrdinalClassifier, cumulative_logits_to_probabilities
@@ -85,7 +89,7 @@ def main() -> None:
     failure_table(
         labels,
         probabilities,
-        paths=frame["image_path"].tolist(),
+        paths=portable_identifiers(frame["image_path"].tolist()),
     ).to_csv(args.output.parent / "idrid_high_confidence_errors.csv", index=False)
     print(json.dumps(metrics, indent=2))
 

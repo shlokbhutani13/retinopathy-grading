@@ -11,7 +11,11 @@ from sklearn.metrics import cohen_kappa_score
 from torch import nn
 from torch.utils.data import DataLoader
 
-from retinopathy.analysis import bootstrap_confidence_interval, failure_table
+from retinopathy.analysis import (
+    bootstrap_confidence_interval,
+    failure_table,
+    portable_identifiers,
+)
 from retinopathy.calibration import expected_calibration_error
 from retinopathy.evaluation import evaluate_predictions
 from retinopathy.ordinal import (
@@ -147,7 +151,9 @@ def run_ordinal_training(
     failure_table(
         test["labels"],
         test_probabilities,
-        paths=frame.loc[frame["split"] == "test", "image_path"].tolist(),
+        paths=portable_identifiers(
+            frame.loc[frame["split"] == "test", "image_path"].tolist()
+        ),
     ).to_csv(artifact_dir / "ordinal_high_confidence_errors.csv", index=False)
     return metrics
 

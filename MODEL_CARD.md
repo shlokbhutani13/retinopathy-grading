@@ -12,10 +12,11 @@ It is not a medical device, diagnostic system, or substitute for an eye examinat
 - Initialization: ImageNet pretrained weights
 - Input: cropped 384×384 RGB retinal fundus photograph
 - Output: four ordered thresholds converted to five severity probabilities
-- Loss: weighted binary cross-entropy over ordinal thresholds
+- Loss: ordinal binary cross-entropy; class weights during base training and class-aware
+  sampling during fine-tuning
 - Selection metric: validation quadratic weighted kappa
 - Confidence calibration: validation-set temperature scaling
-- Training epochs: 7
+- Training: 7 APTOS epochs followed by 3 IDRiD fine-tuning epochs
 - Training device: Apple MPS
 
 ## Data
@@ -39,55 +40,63 @@ independent binary folder label.
 Matched class counts were 1,510 no-DR, 337 mild, 917 moderate, 172 severe, and 265
 proliferative-DR images.
 
+Fine-tuning adds IDRiD's official 413-image training split: 134 no-DR, 20 mild, 136
+moderate, 74 severe, and 49 proliferative-DR images. An inverse-frequency sampler balances
+the five grades during fine-tuning. The official 103-image IDRiD testing split remains
+untouched until final evaluation.
+
 ## Held-out performance
 
 | Metric | Result |
 | --- | ---: |
-| Quadratic weighted kappa | 0.8947 (95% CI 0.8658–0.9218) |
-| Macro F1 | 0.6836 |
-| Balanced accuracy | 0.6811 |
-| Referable AUROC | 0.9838 |
-| Referable sensitivity | 0.9655 |
-| Referable specificity | 0.9362 |
-| Referable precision | 0.9116 |
-| Referable negative predictive value | 0.9755 |
-| Expected calibration error | 0.0120 |
+| Quadratic weighted kappa | 0.8807 (95% CI 0.8490–0.9088) |
+| Macro F1 | 0.6347 |
+| Balanced accuracy | 0.6353 |
+| Referable AUROC | 0.9810 |
+| Referable sensitivity | 0.9360 |
+| Referable specificity | 0.9262 |
+| Referable precision | 0.8962 |
+| Referable negative predictive value | 0.9550 |
+| Expected calibration error | 0.0246 |
 
 Per-class recall:
 
 | Grade | Recall |
 | --- | ---: |
-| No DR | 97.6% |
-| Mild | 60.8% |
-| Moderate | 80.1% |
-| Severe | 37.0% |
-| Proliferative DR | 65.0% |
+| No DR | 98.4% |
+| Mild | 56.9% |
+| Moderate | 72.8% |
+| Severe | 29.6% |
+| Proliferative DR | 60.0% |
 
 ## External evaluation
 
-The frozen model was evaluated on all 516 disease-grading images from IDRiD (CC BY
-4.0). IDRiD was not used during training, model selection, or calibration.
+The frozen model was evaluated on IDRiD's official 103-image testing split (CC BY 4.0).
+Those images were not used during training, model selection, or calibration.
 
 | Metric | Result |
 | --- | ---: |
-| Quadratic weighted kappa | 0.7417 (95% CI 0.6988–0.7827) |
-| Macro F1 | 0.4176 |
-| Balanced accuracy | 0.4526 |
-| Referable AUROC | 0.9510 |
-| Referable sensitivity | 0.7399 |
-| Referable specificity | 0.9896 |
-| Expected calibration error | 0.2141 |
+| Quadratic weighted kappa | 0.7309 (95% CI 0.5901–0.8467) |
+| Macro F1 | 0.5671 |
+| Balanced accuracy | 0.5749 |
+| Referable AUROC | 0.9311 |
+| Referable sensitivity | 0.8594 |
+| Referable specificity | 0.8718 |
+| Expected calibration error | 0.1348 |
 
-The gap between internal and external calibration is evidence of domain shift. External
-severe-grade recall was 11.8%.
+Before fine-tuning, the original checkpoint reached 10.5% severe recall (2/19), 0.6538
+QWK, and 0.3723 macro F1 on the same test split. Fine-tuning raised severe recall to 84.2%
+(16/19), QWK to 0.7309, and macro F1 to 0.5671. APTOS severe recall fell from 37.0% to
+29.6%, so the result does not establish a general severe-grade improvement.
 
 ## Limitations and risks
 
-- Minority-grade recall is materially lower than no-DR recall.
+- Minority-grade recall remains unstable across datasets.
 - Image-level splitting cannot prevent patient-level leakage when patient identifiers are unavailable.
 - Public benchmark images do not represent every camera, clinical setting, population, or comorbidity.
 - The retinal-field quality gate uses heuristic thresholds and is not a clinical image-quality model.
-- Confidence calibrated on APTOS does not transfer reliably to IDRiD.
+- The IDRiD test split contains only 19 severe-grade cases.
+- Confidence calibrated on APTOS remains less reliable on IDRiD.
 - A high-confidence result can still be wrong.
 - The screening threshold was evaluated retrospectively and has not been tested prospectively.
 - The model does not identify macular edema or provide treatment recommendations.
