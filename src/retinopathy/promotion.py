@@ -9,7 +9,11 @@ from sklearn.metrics import cohen_kappa_score
 from torch import nn
 from torch.utils.data import DataLoader
 
-from retinopathy.analysis import bootstrap_confidence_interval, failure_table
+from retinopathy.analysis import (
+    bootstrap_confidence_interval,
+    clustered_bootstrap_confidence_interval,
+    failure_table,
+)
 from retinopathy.calibration import expected_calibration_error
 from retinopathy.evaluation import evaluate_predictions
 from retinopathy.finetune import load_ordinal_checkpoint
@@ -59,6 +63,7 @@ def evaluate_ordinal_checkpoint(
     artifact_directory: Path,
     device: torch.device,
     batch_size: int = 12,
+    group_column: str | None = None,
 ) -> dict[str, object]:
     model, metadata = load_ordinal_checkpoint(model_path, device)
     model.eval()
@@ -103,6 +108,20 @@ def evaluate_ordinal_checkpoint(
             ),
         }
     )
+    if group_column is not None:
+        if group_column not in frame:
+            raise ValueError(f"missing group column: {group_column}")
+        metrics["kappa_95_ci"] = clustered_bootstrap_confidence_interval(
+            labels,
+            predictions,
+            frame[group_column].to_numpy(),
+            metric=lambda truth, pred: float(
+                cohen_kappa_score(truth, pred, weights="quadratic")
+            ),
+            samples=1000,
+            seed=42,
+        )
+        metrics["confidence_interval_unit"] = group_column
     artifact_directory.mkdir(parents=True, exist_ok=True)
     (artifact_directory / f"{output_prefix}_metrics.json").write_text(
         json.dumps(metrics, indent=2) + "\n"
