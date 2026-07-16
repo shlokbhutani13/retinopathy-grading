@@ -1,0 +1,21 @@
+{
+  "dataset": "Diabetic Retinopathy 224x224 (APTOS 2019 derivative)",
+  "license": "CC0-1.0",
+  "images_before_deduplication": 3662,
+  "images_after_deduplication": 3504,
+  "duplicate_rows": 251,
+  "conflicting_hashes_excluded": 30,
+  "class_counts": {
+    "0": 1796,
+    "1": 338,
+    "2": 922,
+    "3": 177,
+    "4": 271
+  },
+  "split_counts": {
+    "train": 2452,
+    "test": 526,
+    "validation": 526
+  },
+  "seed": 42
+}
