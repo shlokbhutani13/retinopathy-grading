@@ -14,26 +14,32 @@ explanations, tests, and a local Gradio demo.
 
 The final checkpoint starts from the APTOS ordinal model and adds three epochs of
 class-aware fine-tuning with IDRiD's official training split. Checkpoint selection and
-temperature scaling use the unchanged APTOS validation split. The 95% QWK intervals use
-1,000 bootstrap samples.
+temperature scaling use the unchanged APTOS validation split. After training was
+complete, the frozen checkpoint was evaluated once on DeepDRiD's official online
+evaluation split. The 95% QWK intervals use 1,000 bootstrap samples; DeepDRiD resamples
+patients because each patient contributes four images.
 
-| Metric | APTOS test | IDRiD official test |
-| --- | ---: | ---: |
-| Quadratic weighted kappa | 0.881 (95% CI 0.849–0.909) | 0.731 (95% CI 0.590–0.847) |
-| Macro F1 | 0.635 | 0.567 |
-| Balanced accuracy | 0.635 | 0.575 |
-| Referable-DR AUROC | 0.981 | 0.931 |
-| Referable-DR sensitivity | 93.6% | 85.9% |
-| Referable-DR specificity | 92.6% | 87.2% |
-| Expected calibration error | 2.5% | 13.5% |
-| Images | 501 | 103 |
+| Metric | APTOS test | IDRiD official test | DeepDRiD official evaluation |
+| --- | ---: | ---: | ---: |
+| Quadratic weighted kappa | 0.881 (0.849–0.909) | 0.731 (0.590–0.847) | 0.612 (0.499–0.702) |
+| Macro F1 | 0.635 | 0.567 | 0.352 |
+| Balanced accuracy | 0.635 | 0.575 | 0.382 |
+| Referable-DR AUROC | 0.981 | 0.931 | 0.905 |
+| Referable-DR sensitivity | 93.6% | 85.9% | 55.5% |
+| Referable-DR specificity | 92.6% | 87.2% | 96.6% |
+| Expected calibration error | 2.5% | 13.5% | 23.1% |
+| Images | 501 | 103 | 400 (100 patients) |
 
 Fine-tuning raised severe-grade recall on the IDRiD test split from 10.5% (2/19) to 84.2%
 (16/19), while APTOS severe recall fell from 37.0% to 29.6%. The candidate met the
 predeclared guardrails: APTOS QWK fell by 0.014 and referable AUROC by 0.003. These
-results show a cross-dataset tradeoff, not a clinical performance claim.
+results show a cross-dataset tradeoff, not a clinical performance claim. DeepDRiD adds
+a harder independent check: specificity remains high, but sensitivity, minority-grade
+recall, and calibration degrade substantially.
 
 ![Normalized APTOS confusion matrix](artifacts/idrid_finetune/candidate_aptos_confusion_matrix.png)
+
+![Normalized DeepDRiD confusion matrix](artifacts/deepdrid/deepdrid_confusion_matrix.png)
 
 ## Prediction task
 
@@ -46,6 +52,16 @@ results show a cross-dataset tradeoff, not a clinical performance claim.
 | 4 | Proliferative diabetic retinopathy |
 
 Grades 2–4 are grouped as referable diabetic retinopathy for the screening result.
+
+## PyTorch implementation
+
+The training and inference path is PyTorch rather than a notebook-only wrapper.
+`OrdinalClassifier` is an `nn.Module` built on torchvision's EfficientNet-B0. Four
+cumulative logits are trained with `BCEWithLogitsLoss`; `Dataset` and `DataLoader` handle
+the 384×384 retinal crops, and checkpoints contain the `state_dict`, temperature, input
+size, and architecture name. Training supports Apple MPS, CUDA, and CPU. Evaluation runs
+under `torch.no_grad()`, converts cumulative logits into five class probabilities, and
+checks the checkpoint SHA-256 before and after the DeepDRiD run.
 
 ## Dataset controls
 
@@ -79,6 +95,14 @@ Fine-tuning also uses the 413-image official training split from
 [IDRiD](https://ieee-dataport.org/open-access/indian-diabetic-retinopathy-image-dataset-idrid)
 (CC BY 4.0), including 74 severe-grade images. All 103 official testing images remain
 outside training, checkpoint selection, and calibration.
+
+The third evaluation uses 400 regular fundus images from the CC BY-SA 4.0
+[DeepDRiD](https://github.com/deepdrdoc/DeepDRiD) online evaluation split: 100 patients
+with four images each. It was not used for training, model selection, calibration, or
+threshold adjustment. Before evaluation, SHA-256 hashes and mutual-nearest retinal
+perceptual hashes were compared with all 3,201 retained APTOS images and all 516 IDRiD
+images. The audit found no exact or confirmed perceptual duplicates. Low-distance pHash
+candidates are retained in the committed integrity report for inspection.
 
 ## Run the demo
 
@@ -151,6 +175,18 @@ python scripts/compare_checkpoints.py \
   --aptos-root /path/to/high-resolution-dataset
 ```
 
+Audit and evaluate DeepDRiD without changing the checkpoint:
+
+```bash
+python scripts/prepare_deepdrid.py \
+  --deepdrid-root /path/to/DeepDRiD \
+  --aptos-root /path/to/high-resolution-dataset \
+  --idrid-root /path/to/idrid
+
+python scripts/evaluate_deepdrid.py \
+  --deepdrid-root /path/to/DeepDRiD
+```
+
 The same commands work in a free Kaggle notebook with a GPU enabled. Fine-tuning is
 configured in `configs/idrid_finetune.yaml`; the original ordinal and 224px baseline
 configurations remain available.
@@ -178,6 +214,9 @@ tests/                    unit and smoke tests
 - The IDRiD test set contains only 19 severe-grade images, so its recall estimate has high
   uncertainty.
 - Calibration still changes across datasets: ECE is 2.5% on APTOS and 13.5% on IDRiD.
+- On DeepDRiD, mild recall is 0%, severe recall is 15.3%, and ECE rises to 23.1%.
+- DeepDRiD referable sensitivity is 55.5% despite 96.6% specificity; this checkpoint is
+  not reliable as a screening model across acquisition settings.
 - Image-quality thresholds are engineering safeguards, not clinically validated quality
   assessment.
 - Performance has not been tested prospectively or in a clinical workflow.

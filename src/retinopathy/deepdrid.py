@@ -204,9 +204,20 @@ def cross_dataset_hash_audit(
             "cross-dataset exact duplicate: "
             f"{first['target_image_id']} and {first['reference_image_id']}"
         )
+    confirmed_matches = [
+        match
+        for match in perceptual_matches
+        if match["mean_absolute_pixel_difference"] <= 1.0
+    ]
+    candidates = [
+        match
+        for match in perceptual_matches
+        if match["mean_absolute_pixel_difference"] > 1.0
+    ]
     return {
         "target_images": len(target),
         "reference_images": reference_counts,
         "exact_matches": exact_matches,
-        "perceptual_matches": perceptual_matches,
+        "perceptual_matches": confirmed_matches,
+        "perceptual_candidates": candidates,
     }

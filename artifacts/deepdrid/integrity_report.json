@@ -1,0 +1,425 @@
+{
+  "dataset": "DeepDRiD",
+  "source_split": "online_evaluation",
+  "license": "CC BY-SA 4.0",
+  "repository_revision": "56d8af71319803150d0e7b90533e0918c7bf85ee",
+  "images": 400,
+  "patients": 100,
+  "grade_counts": {
+    "0": 200,
+    "1": 36,
+    "2": 72,
+    "3": 72,
+    "4": 20
+  },
+  "cross_dataset_audit": {
+    "target_images": 400,
+    "reference_images": {
+      "aptos": 3201,
+      "idrid": 516
+    },
+    "exact_matches": [],
+    "perceptual_matches": [],
+    "perceptual_candidates": [
+      {
+        "reference_source": "aptos",
+        "target_image_id": "368_l2",
+        "reference_image_id": "36b5b3c9fb32",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 39.4818
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "371_r2",
+        "reference_image_id": "359bab5d784b",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 23.0028
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "384_l1",
+        "reference_image_id": "454a944eb557",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 24.0279
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "387_r2",
+        "reference_image_id": "8e6df9eedcd8",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 42.2199
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "391_l2",
+        "reference_image_id": "e7b5dd5bab1f",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 31.6801
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "398_l1",
+        "reference_image_id": "f58f0b2fd718",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 31.3219
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "403_l2",
+        "reference_image_id": "80c67efc8101",
+        "distance": 6,
+        "mean_absolute_pixel_difference": 14.4774
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "411_r2",
+        "reference_image_id": "3132556f5352",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 25.6737
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "412_r2",
+        "reference_image_id": "eb6b1f1c09db",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 34.1097
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "421_l1",
+        "reference_image_id": "a1b28bcbce00",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 39.351
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "427_r2",
+        "reference_image_id": "1a90fad9ffa2",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 20.2317
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "439_l2",
+        "reference_image_id": "8a25a080f28f",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 45.6359
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "440_r2",
+        "reference_image_id": "0709652336e2",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 32.8378
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "441_r2",
+        "reference_image_id": "30263a7d5609",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 38.2779
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "443_l2",
+        "reference_image_id": "ef5155990874",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 50.6526
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "443_r2",
+        "reference_image_id": "0a38b552372d",
+        "distance": 6,
+        "mean_absolute_pixel_difference": 54.4671
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "445_l2",
+        "reference_image_id": "0e0003ddd8df",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 19.8567
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "449_l2",
+        "reference_image_id": "6c00dd8bf708",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 27.4539
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "449_r2",
+        "reference_image_id": "5257cb536da2",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 24.384
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "452_r2",
+        "reference_image_id": "e42d9a94a66d",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 32.4543
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "454_r1",
+        "reference_image_id": "98d41bce73a8",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 38.3675
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "455_l2",
+        "reference_image_id": "a384e688e228",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 26.9517
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "455_r2",
+        "reference_image_id": "bacfa2b8e706",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 30.6018
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "456_r1",
+        "reference_image_id": "4b237b958555",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 35.9106
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "457_l2",
+        "reference_image_id": "956765d5f46d",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 26.9426
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "461_l2",
+        "reference_image_id": "639915f58a2f",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 28.78
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "464_l2",
+        "reference_image_id": "7116128c65ab",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 39.7568
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "464_r1",
+        "reference_image_id": "51cd8d2057fa",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 25.5028
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "465_l2",
+        "reference_image_id": "b3a994760537",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 25.5837
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "470_l1",
+        "reference_image_id": "fa9bece586fc",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 53.4106
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "470_l2",
+        "reference_image_id": "5a11d21c2828",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 28.5971
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "470_r2",
+        "reference_image_id": "95a4cc805c7b",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 48.3542
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "472_r1",
+        "reference_image_id": "86d58f850a0c",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 28.4031
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "472_r2",
+        "reference_image_id": "bfb578c0e8d8",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 33.2044
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "474_l2",
+        "reference_image_id": "a9a3225cf4b5",
+        "distance": 6,
+        "mean_absolute_pixel_difference": 24.1293
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "475_r1",
+        "reference_image_id": "dd285d9e97fe",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 34.9449
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "476_l2",
+        "reference_image_id": "0ce062f26edc",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 20.5708
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "477_r2",
+        "reference_image_id": "f633c474e8b8",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 27.0304
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "484_l1",
+        "reference_image_id": "cfb17a7cc8d4",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 45.5492
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "488_r2",
+        "reference_image_id": "aa10a4b2e709",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 26.0314
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "493_r2",
+        "reference_image_id": "d871895742b1",
+        "distance": 8,
+        "mean_absolute_pixel_difference": 61.6396
+      },
+      {
+        "reference_source": "aptos",
+        "target_image_id": "496_r1",
+        "reference_image_id": "4409965eb2a4",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 46.267
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "366_l2",
+        "reference_image_id": "IDRiD_162",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 38.8512
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "368_l2",
+        "reference_image_id": "IDRiD_187",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 37.5178
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "371_r2",
+        "reference_image_id": "IDRiD_046",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 59.8344
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "403_l2",
+        "reference_image_id": "IDRiD_230",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 25.4249
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "403_r2",
+        "reference_image_id": "IDRiD_080",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 27.8931
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "421_l1",
+        "reference_image_id": "IDRiD_244",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 25.1328
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "421_r1",
+        "reference_image_id": "IDRiD_061",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 31.8931
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "439_l2",
+        "reference_image_id": "IDRiD_069",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 31.5085
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "454_r1",
+        "reference_image_id": "IDRiD_081",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 35.0444
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "461_l2",
+        "reference_image_id": "IDRiD_034",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 28.2497
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "463_l1",
+        "reference_image_id": "IDRiD_075",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 39.5229
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "472_r2",
+        "reference_image_id": "IDRiD_091",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 23.9519
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "474_r2",
+        "reference_image_id": "IDRiD_275",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 35.531
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "477_r1",
+        "reference_image_id": "IDRiD_196",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 28.601
+      },
+      {
+        "reference_source": "idrid",
+        "target_image_id": "488_r2",
+        "reference_image_id": "IDRiD_145",
+        "distance": 10,
+        "mean_absolute_pixel_difference": 16.2293
+      }
+    ]
+  }
+}

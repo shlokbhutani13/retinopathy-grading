@@ -45,6 +45,11 @@ moderate, 74 severe, and 49 proliferative-DR images. An inverse-frequency sample
 the five grades during fine-tuning. The official 103-image IDRiD testing split remains
 untouched until final evaluation.
 
+DeepDRiD is used only as a third, post-training evaluation. Its official online
+evaluation split contains 400 images from 100 patients. The checkpoint was frozen before
+the split was evaluated. A cross-dataset audit against APTOS and IDRiD found no exact or
+confirmed perceptual duplicates.
+
 ## Held-out performance
 
 | Metric | Result |
@@ -89,6 +94,24 @@ QWK, and 0.3723 macro F1 on the same test split. Fine-tuning raised severe recal
 (16/19), QWK to 0.7309, and macro F1 to 0.5671. APTOS severe recall fell from 37.0% to
 29.6%, so the result does not establish a general severe-grade improvement.
 
+The same frozen checkpoint was then evaluated once on DeepDRiD's official 400-image
+online evaluation split (CC BY-SA 4.0). The QWK confidence interval resamples 100 patient
+clusters rather than individual images.
+
+| Metric | Result |
+| --- | ---: |
+| Quadratic weighted kappa | 0.6116 (95% CI 0.4990–0.7017) |
+| Macro F1 | 0.3517 |
+| Balanced accuracy | 0.3817 |
+| Referable AUROC | 0.9053 |
+| Referable sensitivity | 0.5549 |
+| Referable specificity | 0.9661 |
+| Expected calibration error | 0.2314 |
+
+DeepDRiD recall is 95.0% for no DR, 0% for mild, 30.6% for moderate, 15.3% for
+severe, and 50.0% for proliferative DR. This result shows that the model's operating
+point does not transfer reliably to this acquisition setting.
+
 ## Limitations and risks
 
 - Minority-grade recall remains unstable across datasets.
@@ -97,6 +120,9 @@ QWK, and 0.3723 macro F1 on the same test split. Fine-tuning raised severe recal
 - The retinal-field quality gate uses heuristic thresholds and is not a clinical image-quality model.
 - The IDRiD test split contains only 19 severe-grade cases.
 - Confidence calibrated on APTOS remains less reliable on IDRiD.
+- DeepDRiD has four images per patient; its patient-clustered interval accounts for this
+  dependence, but the sample still represents only 100 patients.
+- DeepDRiD sensitivity and minority-grade recall are too low for screening use.
 - A high-confidence result can still be wrong.
 - The screening threshold was evaluated retrospectively and has not been tested prospectively.
 - The model does not identify macular edema or provide treatment recommendations.

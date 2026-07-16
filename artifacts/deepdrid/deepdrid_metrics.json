@@ -1,0 +1,76 @@
+{
+  "quadratic_weighted_kappa": 0.6115898920419085,
+  "macro_f1": 0.3516816032554403,
+  "balanced_accuracy": 0.38166666666666665,
+  "per_class_recall": [
+    0.95,
+    0.0,
+    0.3055555555555556,
+    0.1527777777777778,
+    0.5
+  ],
+  "confusion_matrix": [
+    [
+      190,
+      3,
+      4,
+      2,
+      1
+    ],
+    [
+      35,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      38,
+      12,
+      22,
+      0,
+      0
+    ],
+    [
+      18,
+      1,
+      15,
+      11,
+      27
+    ],
+    [
+      7,
+      0,
+      3,
+      0,
+      10
+    ]
+  ],
+  "referable_auroc": 0.9053069450186026,
+  "referable_sensitivity": 0.5548780487804879,
+  "referable_specificity": 0.9661016949152542,
+  "referable_precision": 0.9191919191919192,
+  "referable_negative_predictive_value": 0.7574750830564784,
+  "dataset": "DeepDRiD online evaluation",
+  "samples": 400,
+  "expected_calibration_error": 0.23143148021974358,
+  "kappa_95_ci": {
+    "estimate": 0.6115898920419085,
+    "lower": 0.4989613123775378,
+    "upper": 0.7016956423923159
+  },
+  "confidence_interval_unit": "patient_id",
+  "license": "CC BY-SA 4.0",
+  "source_split": "online_evaluation",
+  "patients": 100,
+  "model_sha256": "379ec9c411ffa2a7edc80d2e19252aa34e93886640a5ef689d6a9a0cb9b7b5dd",
+  "source_revision": "56d8af71319803150d0e7b90533e0918c7bf85ee",
+  "image_quality": {
+    "accepted": 398,
+    "total": 400,
+    "accepted_fraction": 0.995,
+    "rejection_reasons": {
+      "sharpness": 2
+    }
+  }
+}

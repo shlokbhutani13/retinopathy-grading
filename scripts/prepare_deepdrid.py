@@ -27,6 +27,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("data/splits/aptos_highres.csv"),
     )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("artifacts/deepdrid/integrity_report.json"),
+    )
     return parser.parse_args()
 
 
@@ -79,6 +84,8 @@ def main() -> None:
         },
         "cross_dataset_audit": audit,
     }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))
 
 
