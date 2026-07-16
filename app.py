@@ -5,9 +5,11 @@ from pathlib import Path
 import gradio as gr
 from PIL import Image
 
-from retinopathy.predict import RetinopathyPredictor
+from retinopathy.predict import OrdinalRetinopathyPredictor, RetinopathyPredictor
+from retinopathy.quality import assess_image_quality
 
 MODEL_PATH = Path("models/retinopathy_efficientnet_b0.pt")
+ORDINAL_MODEL_PATH = Path("models/retinopathy_ordinal_384.pt")
 
 
 def analyze_image(
@@ -16,6 +18,13 @@ def analyze_image(
 ) -> tuple[str, dict[str, float], Image.Image]:
     if image is None:
         raise ValueError("Upload a retinal fundus image before running the model.")
+    quality = assess_image_quality(image)
+    if not quality["acceptable"]:
+        reasons = ", ".join(quality["reasons"])
+        raise ValueError(
+            "Image quality is unsuitable for grading. Check the retinal field, lighting, "
+            f"and focus. Failed checks: {reasons}."
+        )
 
     result, overlay = predictor.predict(image)
     screening = (
@@ -32,6 +41,7 @@ def analyze_image(
         f"### Predicted grade: {result['grade_name']}\n\n"
         f"{screening}{uncertainty}\n\n"
         f"Model confidence: **{float(result['confidence']):.0%}**\n\n"
+        "Image quality checks: **passed**\n\n"
         "**Research use only:** this output is not a diagnosis and cannot replace an eye "
         "examination by a qualified professional."
     )
@@ -83,5 +93,10 @@ def build_demo(predictor: RetinopathyPredictor | None = None) -> gr.Blocks:
 
 
 if __name__ == "__main__":
-    loaded_predictor = RetinopathyPredictor(str(MODEL_PATH)) if MODEL_PATH.exists() else None
+    if ORDINAL_MODEL_PATH.exists():
+        loaded_predictor = OrdinalRetinopathyPredictor(str(ORDINAL_MODEL_PATH))
+    elif MODEL_PATH.exists():
+        loaded_predictor = RetinopathyPredictor(str(MODEL_PATH))
+    else:
+        loaded_predictor = None
     build_demo(loaded_predictor).launch()

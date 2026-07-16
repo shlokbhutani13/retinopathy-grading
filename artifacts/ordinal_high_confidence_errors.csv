@@ -1,0 +1,20 @@
+path,true_grade,predicted_grade,confidence
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_02740.png,1,2,0.9764680640069151
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_01364.png,1,0,0.962233361866753
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_5 (15).png,3,4,0.9609093423796242
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_5 (36).png,3,2,0.944216158320775
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_02542.png,3,4,0.9190635739758445
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_2 (31).png,1,2,0.8614815004531595
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_00031.png,1,2,0.8549323279222318
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_01473.png,3,4,0.8516221915244324
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_02133.png,1,2,0.8512688876661741
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/No DR/image_00610.png,0,1,0.8305147704173599
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_00256.png,1,2,0.8262647142898799
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_02730.png,2,1,0.8204206091373107
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_00227.png,3,2,0.7955123074237331
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_02850.png,2,4,0.775296101578422
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/No DR/image_00644.png,0,1,0.7708102749997838
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_02415.png,2,4,0.7699514378612073
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_01722.png,2,1,0.7670962357800837
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_02823.png,1,2,0.7635137827856148
+/Users/shlokbhutani/.cache/kagglehub/datasets/subhajeetdas/aptos-2019-jpg/versions/12/APTOS 2019 (Original) (Binary)/DR/image_01101.png,1,2,0.7561486617220372

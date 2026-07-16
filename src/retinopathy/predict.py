@@ -8,6 +8,8 @@ from retinopathy.calibration import softmax
 from retinopathy.data import GRADE_NAMES
 from retinopathy.explain import GradCAM, overlay_heatmap
 from retinopathy.model import build_model
+from retinopathy.ordinal import OrdinalClassifier, cumulative_logits_to_probabilities
+from retinopathy.quality import crop_retinal_field
 from retinopathy.train import image_transform
 
 
@@ -71,3 +73,26 @@ def _default_device() -> str:
     if torch.cuda.is_available():
         return "cuda"
     return "cpu"
+
+
+class OrdinalRetinopathyPredictor:
+    def __init__(self, artifact_path: str, *, device: str | None = None):
+        self.device = torch.device(device or _default_device())
+        artifact = torch.load(artifact_path, map_location=self.device, weights_only=False)
+        self.image_size = int(artifact.get("image_size", 384))
+        self.temperature = float(artifact.get("temperature", 1.0))
+        self.model = OrdinalClassifier(pretrained=False)
+        self.model.load_state_dict(artifact["model_state"])
+        self.model.to(self.device).eval()
+        self.transform = image_transform(image_size=self.image_size, training=False)
+
+    def predict(self, image: Image.Image) -> tuple[dict[str, object], Image.Image]:
+        source = crop_retinal_field(image.convert("RGB"), image_size=self.image_size)
+        tensor = self.transform(source).unsqueeze(0).to(self.device)
+        with torch.no_grad():
+            logits = self.model(tensor).cpu().numpy() / self.temperature
+        probabilities = cumulative_logits_to_probabilities(logits)[0]
+        result = format_prediction(probabilities)
+        with GradCAM(self.model, self.model.backbone.conv_head) as explainer:
+            heatmap = explainer(tensor, class_index=min(int(result["grade"]), 3))
+        return result, overlay_heatmap(source, heatmap)

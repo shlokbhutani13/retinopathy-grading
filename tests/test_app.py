@@ -28,8 +28,19 @@ def test_analysis_rejects_missing_image():
         analyze_image(None, FakePredictor())
 
 
+def test_analysis_rejects_unusable_image():
+    image = Image.new("RGB", (32, 32), "black")
+
+    with pytest.raises(ValueError, match="quality"):
+        analyze_image(image, FakePredictor())
+
+
 def test_analysis_returns_explanation_and_research_warning():
-    image = Image.fromarray(np.full((32, 32, 3), 90, dtype=np.uint8))
+    values = np.zeros((128, 128, 3), dtype=np.uint8)
+    yy, xx = np.ogrid[:128, :128]
+    values[(xx - 64) ** 2 + (yy - 64) ** 2 <= 54**2] = (140, 75, 45)
+    values[60:68, 60:68] = 230
+    image = Image.fromarray(values)
 
     summary, probabilities, overlay = analyze_image(image, FakePredictor())
 

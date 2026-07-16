@@ -10,6 +10,8 @@ from torch import nn
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
+from retinopathy.quality import crop_retinal_field
+
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
 
@@ -47,6 +49,17 @@ class FundusDataset(Dataset):
         row = self.manifest.iloc[index]
         with Image.open(row["image_path"]) as source:
             image = source.convert("RGB")
+        return self.transform(image), int(row["grade"])
+
+
+class HighResolutionFundusDataset(FundusDataset):
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, int]:
+        row = self.manifest.iloc[index]
+        with Image.open(row["image_path"]) as source:
+            image = crop_retinal_field(
+                source.convert("RGB"),
+                image_size=self.transform.transforms[0].size[0],
+            )
         return self.transform(image), int(row["grade"])
 
 
