@@ -8,6 +8,11 @@ explanations, tests, and a local Gradio demo.
 
 > **Research use only:** this model is not clinically validated and must not be used for diagnosis, treatment, or decisions about medical care.
 
+## See it in action
+
+- [Project overview in my portfolio](https://shlokbhutani13.github.io/)
+- [Source code on GitHub](https://github.com/shlokbhutani13/retinopathy-grading)
+
 ![Retinopathy Grading demo](docs/assets/retinopathy-demo.png)
 
 ## Results
