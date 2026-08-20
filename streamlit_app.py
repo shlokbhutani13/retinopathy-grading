@@ -24,8 +24,107 @@ def load_predictor() -> OrdinalRetinopathyPredictor:
     return OrdinalRetinopathyPredictor(str(MODEL_PATH), device="cpu")
 
 
+def show_research_findings() -> None:
+    st.title("Research findings")
+    st.error(
+        "Research use only. This study is not clinically validated and must not be used "
+        "for diagnosis, treatment, or decisions about medical care."
+    )
+    st.write(
+        "This project studies five-level diabetic-retinopathy grading from retinal fundus "
+        "photographs. The PyTorch model uses an EfficientNet-B0 backbone with four cumulative "
+        "ordinal outputs, then groups grades 2 through 4 as referable diabetic retinopathy."
+    )
+
+    st.header("Evaluation")
+    st.caption(
+        "The final checkpoint was evaluated on held-out APTOS data, the official IDRiD test "
+        "set, and DeepDRiD's official online evaluation split."
+    )
+    st.table(
+        [
+            {
+                "Metric": "Quadratic weighted kappa",
+                "APTOS test": "0.881 (0.849–0.909)",
+                "IDRiD official test": "0.731 (0.590–0.847)",
+                "DeepDRiD official evaluation": "0.612 (0.499–0.702)",
+            },
+            {
+                "Metric": "Referable-DR AUROC",
+                "APTOS test": "0.981",
+                "IDRiD official test": "0.931",
+                "DeepDRiD official evaluation": "0.905",
+            },
+            {
+                "Metric": "Referable-DR sensitivity",
+                "APTOS test": "93.6%",
+                "IDRiD official test": "85.9%",
+                "DeepDRiD official evaluation": "55.5%",
+            },
+            {
+                "Metric": "Referable-DR specificity",
+                "APTOS test": "92.6%",
+                "IDRiD official test": "87.2%",
+                "DeepDRiD official evaluation": "96.6%",
+            },
+            {
+                "Metric": "Expected calibration error",
+                "APTOS test": "2.5%",
+                "IDRiD official test": "13.5%",
+                "DeepDRiD official evaluation": "23.1%",
+            },
+        ]
+    )
+
+    st.header("Data and study controls")
+    st.markdown(
+        """
+        - Audited 3,662 APTOS-derived images before splitting. The audit found 251 duplicate
+          rows and excluded 30 hashes with conflicting labels, leaving 3,504 unique,
+          non-conflicting images.
+        - Linked 3,201 high-resolution images to cleaned APTOS records with mutual-nearest
+          retinal perceptual-hash matching and independent binary-label agreement.
+        - Fine-tuned for three epochs with IDRiD's official training split. The IDRiD official
+          test split remained outside training, checkpoint selection, and calibration.
+        - Ran DeepDRiD evaluation after freezing the final checkpoint, without adjusting the
+          threshold or model.
+        """
+    )
+
+    st.header("What the results mean")
+    st.write(
+        "Fine-tuning raised severe-grade recall on IDRiD from 10.5% (2/19) to 84.2% (16/19), "
+        "while APTOS severe recall fell from 37.0% to 29.6%. DeepDRiD offered a harder external "
+        "check: specificity remained high, but sensitivity, minority-grade recall, and "
+        "calibration declined. These cross-dataset differences are the central result of the "
+        "study, rather than a clinical performance claim."
+    )
+
+    st.header("Research limitations")
+    st.markdown(
+        """
+        - The datasets are limited in size and class balance, and the APTOS-derived split is
+          image-level because patient identifiers were unavailable.
+        - DeepDRiD referable sensitivity was 55.5% despite 96.6% specificity. The model is not
+          reliable as a screening system across acquisition settings.
+        - Image-quality checks and Grad-CAM overlays are engineering aids. They are not clinical
+          validation or medical reasoning.
+        - The study has not been evaluated prospectively or inside a clinical workflow.
+        """
+    )
+    st.link_button(
+        "Read the full methods and model card on GitHub",
+        "https://github.com/shlokbhutani13/retinopathy-grading",
+    )
+
+
 def main() -> None:
     st.set_page_config(page_title="Retinopathy Grading", page_icon="👁️", layout="centered")
+    page = st.sidebar.radio("Explore", ["Prediction demo", "Research findings"])
+    if page == "Research findings":
+        show_research_findings()
+        return
+
     st.title("Retinal Image Classification for Diabetic Retinopathy")
     st.error(
         "Research use only. This educational model is not clinically validated and must not "
